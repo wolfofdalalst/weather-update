@@ -33,7 +33,8 @@ An i3 laptop, 2 or 4 GB RAM with Windows 10
 
 ## Software
 Python 3.9, Windows Powershell, Microsoft Visual Studio Code
-Scope & Limitations:
-An API is required for which a fixed scale is necessary
-Withdrawal of data is limited
-Accessing an API is not always easy
+
+## Scope & Limitations:
+- An API is required for which a fixed scale is necessary
+- Withdrawal of data is limited
+- Accessing an API is not always easy
