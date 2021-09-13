@@ -22,14 +22,15 @@ class CurrentCity:
 
     NOTE: For testing and developing do not use the api link directly. Instead use the sample data set given below.
     """    
-    def __init__(self, name:str):
-        # API_LINK = f"https://api.openweathermap.org/data/2.5/weather?q={name}&appid={OPENW_API_KEY}"
-        # self.response = requests.get(API_LINK).json()
-        # for developing use this data given below
-        self.response = {"coord":{"lon":-74.006,"lat":40.7143},"weather":[{"id":800,"main":"Clear","description":"clear sky","icon":"01d"}],
-        "base":"stations","main":{"temp":297.09,"feels_like":297.5,"temp_min":294.9,"temp_max":298.8,"pressure":1017,"humidity":75},
-        "visibility":10000,"wind":{"speed":4.12,"deg":250},"clouds":{"all":1},"dt":1631536477,"sys":{"type":1,"id":4610,"country":"US",
-        "sunrise":1631529303,"sunset":1631574537},"timezone":-14400,"id":5128581,"name":"New York","cod":200}
+    def __init__(self, name:str, test=False):
+        if test:
+            self.response = {"coord":{"lon":-74.006,"lat":40.7143},"weather":[{"id":800,"main":"Clear","description":"clear sky","icon":"01d"}],
+            "base":"stations","main":{"temp":297.09,"feels_like":297.5,"temp_min":294.9,"temp_max":298.8,"pressure":1017,"humidity":75},
+            "visibility":10000,"wind":{"speed":4.12,"deg":250},"clouds":{"all":1},"dt":1631536477,"sys":{"type":1,"id":4610,"country":"US",
+            "sunrise":1631529303,"sunset":1631574537},"timezone":-14400,"id":5128581,"name":"New York","cod":200}
+        else:
+            API_LINK = f"https://api.openweathermap.org/data/2.5/weather?q={name}&appid={OPENW_API_KEY}"
+            self.response = requests.get(API_LINK).json()
 
     @property
     def name(self) -> str:
