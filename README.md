@@ -38,3 +38,7 @@ Python 3.9, Windows Powershell, Microsoft Visual Studio Code
 - An API is required for which a fixed scale is necessary
 - Withdrawal of data is limited
 - Accessing an API is not always easy
+
+## Contribution
+- Ayush Gupta
+- 
