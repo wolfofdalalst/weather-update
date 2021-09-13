@@ -23,6 +23,9 @@ class CurrentCity:
     NOTE: For testing and developing do not use the api link directly. Instead use the sample data set given below.
     """    
     def __init__(self, name:str, test=False):
+        if " " in name:
+            name = name.replace(" ", "%20")
+            
         if test:
             self.response = {"coord":{"lon":-74.006,"lat":40.7143},"weather":[{"id":800,"main":"Clear","description":"clear sky","icon":"01d"}],
             "base":"stations","main":{"temp":297.09,"feels_like":297.5,"temp_min":294.9,"temp_max":298.8,"pressure":1017,"humidity":75},
@@ -97,6 +100,12 @@ class CurrentCity:
             dict: {"speed":2.06, "deg":160}
         """        
         return self.response["wind"]
+
+    @property
+    def cod(self) -> int:
+        """Should return 200
+        """
+        return self.response["cod"]
 
     def __str__(self) -> str:
         """Usage:

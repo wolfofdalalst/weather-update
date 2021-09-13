@@ -32,5 +32,11 @@ Once the virtual environment is created, run this command to launch it
 ```
 launch_venv.bat
 ```
+
+## Run the unittest
+Run this command in command line
+```
+test.bat
+```
 ## Uploading the work to GitHub
 
