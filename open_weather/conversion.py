@@ -9,3 +9,5 @@ def to_celcius(kelvin:float, round_digit=2) -> float:
         float: celcius
     """       
     return round(kelvin-273.15, round_digit)
+
+#TODO: Add a function to convert Fahrenheit to Celcius 
