@@ -12,7 +12,7 @@ except ImportError:
 class CurrentCity:
     """OpenWeather API framework for getting the current weather information of a city.
     Example use,
-    >>> kolkata = CurrenCity('kolkata')
+    >>> kolkata = CurrentCity('kolkata')
     >>> kolkata.coord
     {"lon":88.3697,"lat":22.5697}
     >>> kolkata.wind
