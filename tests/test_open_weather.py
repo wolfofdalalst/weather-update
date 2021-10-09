@@ -21,6 +21,8 @@ class TestOpenWeather(unittest.TestCase):
             self.assertLessEqual(temp, 60, "Temp <= 60")
             self.assertGreaterEqual(temp, -90, "Temp >= -90")
 
+    #TODO: Add test function to check .\open_weather\conversion.py
+
     def test_humidity(self):
         for city in self.test_city_list:
             humidity = city.humidity
