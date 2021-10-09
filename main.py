@@ -95,19 +95,6 @@ class Weather(tk.Tk):
         # pressure
         self.pressure=Label(self, text="NA/-",fg="#00274c",font=self.font)
         self.pressure.place(x=380,y=230)
-        
-        #     self.location['text']=self.data['name']
-        #     self.c=self.data['main']['temp_max']-273.15
-        #     self.f=self.c*9/5+32
-        #     self.weather['text']=self.data['weather'][0]['main']
-        #     self.weather['font']=('calibri',20,'bold')
-        #     self.temperature['text']=f'{self.c}C\n{self.f}F'
-        #     self.temperature['font']=('calibri',15,'bold')
-        #     self.humidity['text']=self.data['main']['humidity']
-        #     self.humidity['font']=('calibri',15,'bold')
-        #     self.pressure['text']=self.data['main']['pressure']
-        #     self.pressure['font']=('calibri',15,'bold')
-
 
         # search button
         self.button=Button(self, text="Search",bg="#00274c",fg='white',font=self.font)
