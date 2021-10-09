@@ -8,7 +8,7 @@ class TestOpenWeather(unittest.TestCase):
         test_city = ["Kolkata", "Paris", "Berlin"]
         self.test_city_list = []
         for city in test_city:
-            self.test_city_list.append(CurrentCity(city, test=False))
+            self.test_city_list.append(CurrentCity(city, test=True))
 
     def test_cod(self):
         for city in self.test_city_list:
