@@ -1,8 +1,8 @@
 from tkinter import * 
 from tkinter import messagebox
-from datetime import datetime 
+import datetime 
 import tkinter as tk
-from PIL import ImageTk, Image
+from open_weather import current
 
 from open_weather.current import CurrentCity
 
@@ -10,96 +10,76 @@ class Weather(tk.Tk):
 
     @property
     def font(self):
-        return ('calibri',10,'bold')
+        return ('calibri',20,'bold')
     
     def __init__(self):
         super().__init__()
 
         # configure the root window
-        self.geometry('500x300')
+        self.geometry('500x700')
         self.title("WEATHER REPORT")
-        self.maxsize(500,300)
-        self.minsize(500,300)
+        self.config(bg='black')
+        
+        # add location
+        self.location=Label(self,text="NA-/",bg="black",fg="white",font=self.font)
+        self.location.place(x=0,y=0)
 
-        # add header
-        self.header=Label(self, width=100, height=2, bg="#00274c")
-        self.header.place(x=0,y=0)
+        # add heading
+        self.heading=Label(self,text="Weather Report",bg="black",fg="white",font=self.font)
+        self.heading.place(x=180,y=0)
+        
+        # date,time,month label
+        dt=datetime.datetime.now()
+        currentdate=Label(self,text=dt.strftime('%A--'),bg='black',fg='orange',font=("bold ",15))
+        currentdate.place(x=5,y=230)
+        month=Label(self,text=dt.strftime('%m%B'),bg='black',fg='orange',font=("bold ",15))
+        month.place(x=95,y=230)
+        hour=Label(self,text=dt.strftime('%I : %M %p'),bg='white',font=("bold",15))
+        hour.place(x=10,y=160)
+        
+        # add name
+        self.name=Label(self,text="Enter City or Country name ",fg='orange',bg='black',font=self.font)
+        self.name.place(x=100,y=35)
 
-        # date label
-        self.date=Label(self, text=datetime.now().date(), bg="#00274c", fg="red", font=self.font)
-        self.date.place(x=400,y=5)
+        self.location=Text(self,width=25,height=2)
+        self.location.place(x=150,y=75)       
+        
 
-        # heading label
-        self.heading=Label(self, text="Weather Report", bg="#00274c", fg="white", font=self.font)
-        self.heading.place(x=180,y=5)
-
-        self.location=Label(self, text="NA-/", bg="#00274c", fg="blue", font=self.font)
-
-        # icon.png
-        # self.image1=ImageTk.PhotoImage(Image.open('.\images\icon.png'))
-        # self.image1=Label(self, image=self.image1)
-        # self.image1.place(x=20,y=40)
-
-        # city or country name label
-        self.name=Label(self, text="City or Country Name", fg="#00274c", font=self.font)
-        self.name.place(x=140,y=45)
-
-        # 
-        self.loc=Text(self, width=25, height=2)
-        self.loc.place(x=140,y=70)
-
-
-        # line1 label
-        self.line1=Label(self, bg="#00274c", width=20, height=0)
-        self.line1.place(x=0,y=150)
-        self.line2=Label(self, bg="#00274c", width=20, height=0)
-        self.line2.place(x=360,y=150)
-
-        # report label
-        self.report=Label(self, text="Weather Report", bg="#00274c", fg="white" ,font=self.font, padx=10)
-        self.report.place(x=180,y=150)
-
-        # icon2.png
-        # self.image2=ImageTk.PhotoImage(Image.open('.\images\icon2.png'))
-        # self.image2=Label(self, image=self.image2)
-        # self.image2.place(x=90,y=180)
-
-        # weather
-        self.weather=Label(self, text="NA/-", fg="#00274c", font=self.font)
-        self.weather.place(x=90,y=230)
-
-        # icon3.png
-        # self.image3=ImageTk.PhotoImage(Image.open('.\images\icon3.png'))
-        # self.image3=Label(self, image=self.image3)
-        # self.image3.place(x=200,y=180)
+       # city/country
+        label1_city=Label(self,text="....",width=0,bg='black',fg='orange',font=("bold,15"))
+        label1_city.place(x=0,y=100)
+        label2_country=Label(self,text="....",width=0,bg='black',fg='orange',font=("bold,15"))
+        label2_country.place(x=120,y=100)
 
         # temperature
-        self.temperature=Label(self, text='NA/-',fg="#00274c",font=self.font)
-        self.temperature.place(x=200,y=230)
+        label_temp=Label(self,text="...",width=0,bg="black",font=("Helvetica",15), fg="orange")
+        label_temp.place(x=18,y=300)
 
-        # icon4.png
-        # self.image4=ImageTk.PhotoImage(Image.open('.\images\icon4.png'))
-        # self.image4=Label(self, image=self.image3)
-        # self.image4.place(x=310,y=230)
+        # maximum temperature
+        max1=Label(self,text="MAXIMUM TEMPERATURE: ",width=0,bg="black",fg="orange",font=("bold,15"))
+        max1.place(x=0,y=400)
 
+        label_temp=Label(self,text="...",width=0,bg="black",font=("Helvetica",15),fg="orange")
+        label_temp.place(x=0,y=450)
 
-        # humidity
-        self.humidity=Label(self, text="NA/-", fg="#00274c", font=self.font)
-        self.humidity.place(x=310,y=230)
+        # minimum temperature
+        min1=Label(self,text="MINIMUM TEMPERATURE: ",width=0,bg="black",fg="orange",font=("bold,15"))
+        min1.place(x=0,y=500)
 
-        # icon5.png
-        # self.image5=ImageTk.PhotoImage(Image.open('.\images\icon5.png'))
-        # self.image5=Label(self, image=self.image5)
-        # self.image5.place(x=380,y=180)
+        label_temp=Label(self,text="...",width=0,bg='black',font=("Helvetica",15),fg='orange')
+        label_temp.place(x=0,y=550)
 
-        # pressure
-        self.pressure=Label(self, text="NA/-",fg="#00274c",font=self.font)
-        self.pressure.place(x=380,y=230)
+        # description
+        self.des=Label(self,text="DESCRIPTION: ",bg='black',fg='orange',font=("bold,15"))
+        self.des.place(x=0,y=600)
+
+        self.description=Label(self,text="...", width=24,bg='white',font=("bold,17"),fg="black")
+        self.description.place(x=230,y=600)
 
         # search button
-        self.button=Button(self, text="Search",bg="#00274c",fg='white',font=self.font)
+        self.button=Button(self, text="Search",bg="black",fg='white',font=("bold,12"))
         self.button["command"] = self.main
-        self.button.place(x=350,y=73)
+        self.button.place(x=85,y=80)
 
     def main(self):
         city_name:str = self.loc.get(1.0, END)

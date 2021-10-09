@@ -22,7 +22,7 @@ class CurrentCity:
 
     NOTE: For testing and developing do not use the api link directly. Instead use the sample data set given below.
     """    
-    def __init__(self, name:str, test=False):
+    def __init__(self, name:str, test=True):
         if " " in name:
             name = name.replace(" ", "%20")
             
