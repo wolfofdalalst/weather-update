@@ -45,29 +45,29 @@ class Weather(tk.Tk):
         self.text_box.place(x=150,y=75)       
         
 
-       # city/country
-        label1_city=Label(self,text="....",width=0,bg='black',fg='orange',font=("bold,15"))
-        label1_city.place(x=0,y=100)
-        label2_country=Label(self,text="....",width=0,bg='black',fg='orange',font=("bold,15"))
-        label2_country.place(x=120,y=100)
+       # city name
+        city_name=Label(self,text="....",width=0,bg='black',fg='orange',font=("bold,15"))
+        city_name.place(x=0,y=100)
 
         # temperature
-        label_temp=Label(self,text="...",width=0,bg="black",font=("Helvetica",15), fg="orange")
-        label_temp.place(x=18,y=300)
+        temperature=Label(self,text="...",width=0,bg="black",font=("Helvetica",15), fg="orange")
+        temperature.place(x=18,y=300)
 
         # maximum temperature
-        max1=Label(self,text="MAXIMUM TEMPERATURE: ",width=0,bg="black",fg="orange",font=("bold,15"))
-        max1.place(x=0,y=400)
+        maxtemp=Label(self,text="MAXIMUM TEMPERATURE: ",width=0,bg="black",fg="orange",font=("bold,15"))
+        maxtemp.place(x=0,y=400)
 
-        label_temp=Label(self,text="...",width=0,bg="black",font=("Helvetica",15),fg="orange")
-        label_temp.place(x=0,y=450)
+        # maximum temperature
+        temperature=Label(self,text="...",width=0,bg="black",font=("Helvetica",15),fg="orange")
+        temperature.place(x=0,y=450)
 
         # minimum temperature
-        min1=Label(self,text="MINIMUM TEMPERATURE: ",width=0,bg="black",fg="orange",font=("bold,15"))
-        min1.place(x=0,y=500)
+        mintemp=Label(self,text="MINIMUM TEMPERATURE: ",width=0,bg="black",fg="orange",font=("bold,15"))
+        mintemp.place(x=0,y=500)
 
-        label_temp=Label(self,text="...",width=0,bg='black',font=("Helvetica",15),fg='orange')
-        label_temp.place(x=0,y=550)
+        #gets minimum temperature
+        temperature=Label(self,text="...",width=0,bg='black',font=("Helvetica",15),fg='orange')
+        temperature.place(x=0,y=550)
 
         # description
         self.des=Label(self,text="DESCRIPTION: ",bg='black',fg='orange',font=("bold,15"))
