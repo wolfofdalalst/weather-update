@@ -79,7 +79,7 @@ class Weather(tk.Tk):
         # search button
         self.button=Button(self, text="Search",bg="black",fg='white',font=("bold,12"))
         self.button["command"] = self.main
-        self.button.place(x=85,y=80)
+        self.button.place(x=355,y=75)
 
     def main(self):
         city_name:str = self.text_box.get(1.0, END)
