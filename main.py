@@ -2,7 +2,6 @@ from tkinter import *
 from tkinter import messagebox
 import datetime 
 import tkinter as tk
-from open_weather import current
 
 from open_weather.current import CurrentCity
 
