@@ -41,8 +41,8 @@ class Weather(tk.Tk):
         self.name=Label(self,text="Enter City or Country name ",fg='orange',bg='black',font=self.font)
         self.name.place(x=100,y=35)
 
-        self.location=Text(self,width=25,height=2)
-        self.location.place(x=150,y=75)       
+        self.text_box=Text(self,width=25,height=2)
+        self.text_box.place(x=150,y=75)       
         
 
        # city/country
@@ -82,16 +82,18 @@ class Weather(tk.Tk):
         self.button.place(x=85,y=80)
 
     def main(self):
-        city_name:str = self.loc.get(1.0, END)
+        city_name:str = self.text_box.get(1.0, END)
         city_obj = CurrentCity(city_name, test=False)
 
-        if city_obj.cod == "404":
-            messagebox.showerror("Error","City not found")
+        if city_obj.cod == "404": messagebox.showerror("Error","City not found")
 
         self.location['text'] = city_obj.name
 
-        self.weather['text'] = city_obj.weather['main']
-        self.weather['font'] = ('calibri',20,'bold')
+        self.des['text'] = city_obj.weather['main']
+        self.des['font'] = ('calibri',20,'bold')
+
+        self.description['text'] = city_obj.weather['description']
+        self.description['font'] = ('calibri',20,'bold')
 
         self.temperature['text'] = city_obj.temperature
         self.temperature['font'] = ('calibri',15,'bold')
