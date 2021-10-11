@@ -3,7 +3,24 @@ from tkinter import messagebox
 import datetime 
 import tkinter as tk
 
+from time import time as _time
+
 from open_weather.current import CurrentCity
+
+class Persistence:
+    #TODO: use the pickle module to store the data
+    @staticmethod
+    def set_data(city_name:str) -> None:
+        with open('data/record.txt', 'w') as record_file:
+            data = [city_name, _time()]
+            data = list(map(str, data))
+            record_file.write(''.join(data))
+
+    @staticmethod
+    def get_data() -> str:
+        with open('data/record.txt', 'r') as record_file:
+            city_name = record_file.readline().rstrip()
+            return city_name if city_name != '' else None
 
 class Weather(tk.Tk):
 
@@ -57,16 +74,16 @@ class Weather(tk.Tk):
         maxtemp.place(x=0,y=400)
 
         # maximum temperature
-        temperature=Label(self,text="...",width=0,bg="black",font=("Helvetica",15),fg="orange")
-        temperature.place(x=0,y=450)
+        # temperature=Label(self,text="...",width=0,bg="black",font=("Helvetica",15),fg="orange")
+        # temperature.place(x=0,y=450)
 
         # minimum temperature
         mintemp=Label(self,text="MINIMUM TEMPERATURE: ",width=0,bg="black",fg="orange",font=("bold,15"))
         mintemp.place(x=0,y=500)
 
-        #gets minimum temperature
-        temperature=Label(self,text="...",width=0,bg='black',font=("Helvetica",15),fg='orange')
-        temperature.place(x=0,y=550)
+        # #gets minimum temperature
+        # temperature=Label(self,text="...",width=0,bg='black',font=("Helvetica",15),fg='orange')
+        # temperature.place(x=0,y=550)
 
         # description
         self.des=Label(self,text="DESCRIPTION: ",bg='black',fg='orange',font=("bold,15"))
@@ -75,13 +92,17 @@ class Weather(tk.Tk):
         self.description=Label(self,text="...", width=24,bg='white',font=("bold,17"),fg="black")
         self.description.place(x=230,y=600)
 
+        self.main_method(city_name=Persistence.get_data())
+
         # search button
         self.button=Button(self, text="Search",bg="black",fg='white',font=("bold,12"))
-        self.button["command"] = self.main
+        self.button["command"] = self.main_method
         self.button.place(x=355,y=75)
 
-    def main(self):
-        city_name:str = self.text_box.get(1.0, END)
+    def main_method(self, city_name=None):
+        if city_name == None: city_name:str = self.text_box.get(1.0, END)
+            # save the current input city name to data directory
+
         city_obj = CurrentCity(city_name, test=False)
 
         if city_obj.cod == "404": messagebox.showerror("Error","City not found")
@@ -94,17 +115,18 @@ class Weather(tk.Tk):
         self.description['text'] = city_obj.weather['description']
         self.description['font'] = ('calibri',20,'bold')
 
-        self.temperature['text'] = city_obj.temperature
-        self.temperature['font'] = ('calibri',15,'bold')
+        # self.temperature['text'] = city_obj.temperature
+        # self.temperature['font'] = ('calibri',15,'bold')
 
-        self.humidity['text'] = city_obj.humidity
-        self.humidity['font'] = ('calibri',15,'bold')
+        # self.humidity['text'] = city_obj.humidity
+        # self.humidity['font'] = ('calibri',15,'bold')
 
-        self.pressure['text'] = city_obj.pressure
-        self.pressure['font'] = ('calibri',15,'bold')
+        # self.pressure['text'] = city_obj.pressure
+        # self.pressure['font'] = ('calibri',15,'bold')
+
+        Persistence.set_data(city_name)
 
 
 if __name__ == '__main__':
     weather = Weather()
-    weather.mainloop()
-        
+    weather.mainloop()  
