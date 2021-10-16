@@ -107,6 +107,11 @@ class CurrentCity:
         """
         return self.response["cod"]
 
+    @property
+    def icon_url(self) -> str:
+        temp:dict = self.response["weather"][0]
+        return f"https://openweathermap.org/img/w/{temp['icon']}"
+
     def __str__(self) -> str:
         """Usage:
         >>> paris = CurrentCity('Paris')
