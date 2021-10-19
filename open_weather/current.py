@@ -73,19 +73,19 @@ class CurrentCity:
 
     @property
     def temperature(self, round_digit=2) -> float:
-        return to_celcius(self.main["temp"], round_digit)
+        return to_celsius(self.main["temp"], round_digit)
 
     @property
     def feels_like(self, round_digit=2) -> float:
-        return to_celcius(self.main["feels_like"], round_digit)
+        return to_celsius(self.main["feels_like"], round_digit)
 
     @property
     def temp_min(self, round_digit=2) -> float:
-        return to_celcius(self.main["temp_min"], round_digit)
+        return to_celsius(self.main["temp_min"], round_digit)
 
     @property
     def temp_max(self, round_digit=2) -> float:
-        return to_celcius(self.main["temp_max"], round_digit)
+        return to_celsius(self.main["temp_max"], round_digit)
     
     @property
     def pressure(self) -> float:

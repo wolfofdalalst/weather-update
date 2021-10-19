@@ -1,6 +1,6 @@
 import unittest
 from open_weather.current import CurrentCity
-from open_weather.conversion import to_celcius
+from open_weather.conversion import to_celsius
 
 class TestOpenWeather(unittest.TestCase):
 
