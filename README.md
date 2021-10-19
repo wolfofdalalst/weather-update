@@ -1,4 +1,4 @@
-# Weather Update
+# AuraX — Weather Update
 Weather Update, Synopsis Group Project 2021-22 
 
 ## Introduction
