@@ -36,7 +36,7 @@ class Weather(Tk):
     def __init__(self):
         super().__init__()
         global background_image
-
+        
         self.geometry('576x700')
         self.resizable(0,0)
         self.title("AuraX")
@@ -49,36 +49,46 @@ class Weather(Tk):
         logo = r"images/icon.png" # arbitrary string
         windll.shell32.SetCurrentProcessExplicitAppUserModelID(logo)
 
-        
+        # background image
         background_image=ImageTk.PhotoImage(file=r"images/clouds4.jpg")
         panel=Label(self,image=background_image,bg='white')
         panel.place(x=0,y=0)
         
-
-        self.city=Text(self,width=42,height=1,font=('Cambria',20,'bold'))
+        # Search bar
+        self.city=Text(self,width=16,height=1,font=('Cambria',20,'bold'))
         self.city.place(x=230,y=50)
 
-        self.temperature=Label(self,text='20*C',width=0,bg='white',fg='black',font=('Cambria',80,'bold'))
-        self.temperature.place(x=50,y=200)
+        # temperature
+        self.temperature=Label(self,text='20*C',width=0,bg='white',fg='black',font=('Cambria',60,'bold'))
+        self.temperature.place(x=30,y=200)
 
+        # space to display city name 
         self.location=Label(self, text="SAN FRANCISCO",width=0,bg='black',fg='white', font=('Cambria',20,'bold'))
         self.location.place(x=350,y=200)
 
+        # displaying date
         self.date=Label(self,text=datetime.now().date(),bg="black",fg="white",font=('Cambria',20,'bold'))
         self.date.place(x=350,y=240)
 
+        # description
+        self.description=Label(self,text='...',width=0,bg='black',fg='white',font=('Cambria',35,'bold'))
+        self.description.place(x=30,y=350)
+
+        # pressure
         self.pressure_display=Label(self,text="PRESSURE: ",width=0,bg='white',fg='black',font=('Cambria',20,'bold'))
         self.pressure_display.place(x=50,y=500)
 
+        # space to display pressure
         self.pressure=Label(self,text="...",width=0,bg='white',fg='black',font=('Cambria',20,'bold'))
         self.pressure.place(x=200,y=500)
 
+        # humidity
         self.humidity_display=Label(self,text="HUMIDITY: ",width=0,bg='black',fg='white',font=("Cambria",20,"bold"))
-        self.humidity_display.place(x=350,y=500)
+        self.humidity_display.place(x=300,y=500)
 
         # space to display humidity
         self.humidity=Label(self,text="...",width=0,bg='black',font=("bold,Cambria",20),fg="white")
-        self.humidity.place(x=500,y=500)
+        self.humidity.place(x=450,y=500)
 
         self.visibility_display=Label(self,text="VISIBILITY: ",width=0,bg='black',fg='white',font=("Cambria",20,'bold'))
         self.visibility_display.place(x=50,y=600)
@@ -87,20 +97,20 @@ class Weather(Tk):
         self.visibility=Label(self,text="...",width=0,bg='black',font=("Cambria",20,'bold'), fg='white')
         self.visibility.place(x=200,y=600)
 
-        # UV index
+        # Feels like
         self.feels_like_display=Label(self,text="FEELS LIKE ",width=0,bg='#F0F3F4',fg='black',font=('Cambria',20,'bold'))
-        self.feels_like_display.place(x=350,y=600)
+        self.feels_like_display.place(x=300,y=600)
 
-        #space to display UV index
+        #space to display Feels Like
         self.feels_like=Label(self,text="...",width=0,bg='#F0F3F4',font=('Cambria',20,'bold'),fg="black")
-        self.feels_like.place(x=490,y=600)
+        self.feels_like.place(x=450,y=600)
 
         self.main_method(city_name=Persistence.get_data())
 
         # search button
         self.button=Button(self, text="Search",bg="black",fg='white',font=("bold,12"))
         self.button["command"] = self.main_method
-        self.button.place(x=300,y=0)
+        self.button.place(x=500,y=50)
 
     def main_method(self, city_name=None):
         degree_celcius = "°C"
@@ -116,12 +126,11 @@ class Weather(Tk):
         #self.des['text'] = city_obj.weather['main']
         #self.des['font'] = ('calibri',20,'bold')
 
-        #self.description['text'] = city_obj.weather['description']
-        #self.description['font'] = ('calibri',20,'bold')
-
+        self.description['text'] = city_obj.weather['description'].title()
+        
         self.temperature['text'] = str(city_obj.temperature)+degree_celcius
 
-        self.humidity['text'] = city_obj.humidity
+        self.humidity['text'] = str(city_obj.humidity)+"%"
         # self.humidity['font'] = ('calibri',15,'bold')
 
         self.pressure['text'] = city_obj.pressure
@@ -129,7 +138,7 @@ class Weather(Tk):
         self.visibility['text'] = city_obj.visibility
         # self.pressure['font'] = ('calibri',15,'bold')
 
-        Persistence.set_data('Kolkata')
+        Persistence.set_data(city_name)
 
 
 if __name__ == '__main__':
