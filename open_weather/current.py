@@ -40,6 +40,10 @@ class CurrentCity:
         return self.response["name"]
 
     @property
+    def visibility(self) -> int:
+        return self.response["visibility"]
+
+    @property
     def coord(self) -> dict:
         """Returns coordinates dictionary of the input city
 
