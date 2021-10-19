@@ -1,38 +1,36 @@
-from tkinter import * 
+from tkinter import *
 from tkinter import messagebox
-import datetime 
-import tkinter as tk
-import ctypes
-
-import pickle
-from time import time as _time
+from ctypes import windll
+from datetime import datetime
+from pickle import load, dump
+from time import time
 
 from open_weather.current import CurrentCity
 
 class City:
     def __init__(self, city_name:str):
         self.city_name:str = city_name
-        self.time = _time()
+        self.time = time()
 
 class Persistence:
     @staticmethod
     def set_data(city_name:str) -> None:
         city = City(city_name)
         with open('data/record.txt', 'wb') as file_obj:
-            pickle.dump(city, file_obj)
+            dump(city, file_obj)
 
     @staticmethod
     def get_data() -> str:
         try:
             with open('data/record.txt', 'rb') as file_obj:
-                data = pickle.load(file_obj)
+                data = load(file_obj)
         except EOFError:
             Persistence.set_data('Kolkata')
             print('setting initial data to => KOLKATA')
 
         return data.city_name
 
-class Weather(tk.Tk):
+class Weather(Tk):
 
     
     def __init__(self):
@@ -53,10 +51,10 @@ class Weather(tk.Tk):
 
         # setting the taskbar icon
         logo = r"images/icon.png" # arbitrary string
-        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(logo)
+        windll.shell32.SetCurrentProcessExplicitAppUserModelID(logo)
 
         # setting date,time and year
-        dt=datetime.datetime.now() 
+        dt=datetime.now() 
         currentdate=Label(self,text=dt.strftime('%A,'), bg='#F0F3F4',fg='black',font=("Cambria,bold",12))
         currentdate.place(x=160,y=160)
         month=Label(self,text=dt.strftime('%m %B'),bg='#F0F3F4',fg='black' ,font=("Cambria,bold",12))
