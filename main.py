@@ -4,24 +4,33 @@ import datetime
 import tkinter as tk
 import ctypes
 
+import pickle
 from time import time as _time
 
 from open_weather.current import CurrentCity
 
+class City:
+    def __init__(self, city_name:str):
+        self.city_name:str = city_name
+        self.time = _time()
+
 class Persistence:
-    #TODO: use the pickle module to store the data
     @staticmethod
     def set_data(city_name:str) -> None:
-        with open('data/record.txt', 'w') as record_file:
-            data = [city_name, _time()]
-            data = list(map(str, data))
-            record_file.write(''.join(data))
+        city = City(city_name)
+        with open('data/record.txt', 'wb') as file_obj:
+            pickle.dump(city, file_obj)
 
     @staticmethod
     def get_data() -> str:
-        with open('data/record.txt', 'r') as record_file:
-            city_name = record_file.readline().rstrip()
-            return city_name if city_name != '' else None
+        try:
+            with open('data/record.txt', 'rb') as file_obj:
+                data = pickle.load(file_obj)
+        except EOFError:
+            Persistence.set_data('Kolkata')
+            print('setting initial data to => KOLKATA')
+
+        return data.city_name
 
 class Weather(tk.Tk):
 
@@ -35,7 +44,7 @@ class Weather(tk.Tk):
         self.resizable(0,0)
 
         # setting the window icon(top)
-        windowlogo=PhotoImage(file=r"C:\Users\user\Desktop\weather-update\images\icon.png")
+        windowlogo=PhotoImage(file=r"images/icon.png")
         self.iconphoto(True,windowlogo)
 
         # text field for user to enter
@@ -43,7 +52,7 @@ class Weather(tk.Tk):
         self.city.place(x=150,y=0)
 
         # setting the taskbar icon
-        logo = r"C:\Users\user\Desktop\weather-update\images\icon.png" # arbitrary string
+        logo = r"images/icon.png" # arbitrary string
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(logo)
 
         # setting date,time and year
@@ -129,7 +138,7 @@ class Weather(tk.Tk):
         self.pressure['text'] = city_obj.pressure
         self.pressure['font'] = ('calibri',15,'bold')
 
-        Persistence.set_data(city_name)
+        Persistence.set_data('Kolkata')
 
 
 if __name__ == '__main__':
