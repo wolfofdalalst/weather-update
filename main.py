@@ -1,142 +1,146 @@
-from tkinter import * 
+from tkinter import *
 from tkinter import messagebox
-from datetime import datetime 
-import tkinter as tk
-from PIL import ImageTk, Image
+from ctypes import windll
+from datetime import datetime
+from pickle import load, dump
+from PIL import ImageTk
+from time import time
 
 from open_weather.current import CurrentCity
 
-class Weather(tk.Tk):
+class City:
+    def __init__(self, city_name:str):
+        self.city_name:str = city_name
+        self.time = time()
 
-    @property
-    def font(self):
-        return ('calibri',10,'bold')
-    
+class Persistence:
+    @staticmethod
+    def set_data(city_name:str) -> None:
+        city = City(city_name)
+        with open('data/record.txt', 'wb') as file_obj:
+            dump(city, file_obj)
+
+    @staticmethod
+    def get_data() -> str:
+        try:
+            with open('data/record.txt', 'rb') as file_obj:
+                data = load(file_obj)
+        except EOFError:
+            Persistence.set_data('Kolkata')
+            print('setting initial data to => KOLKATA')
+
+        return data.city_name
+
+class Weather(Tk):
+
     def __init__(self):
         super().__init__()
+        global background_image
+        
+        self.geometry('576x700')
+        self.resizable(0,0)
+        self.title("AuraX")
 
-        # configure the root window
-        self.geometry('500x300')
-        self.title("WEATHER REPORT")
-        self.maxsize(500,300)
-        self.minsize(500,300)
+        # setting the window icon(top)
+        windowlogo=PhotoImage(file=r"images/icon.png")
+        self.iconphoto(True,windowlogo)
 
-        # add header
-        self.header=Label(self, width=100, height=2, bg="#00274c")
-        self.header.place(x=0,y=0)
+        # setting the taskbar icon
+        logo = r"images/icon.png" # arbitrary string
+        windll.shell32.SetCurrentProcessExplicitAppUserModelID(logo)
 
-        # date label
-        self.date=Label(self, text=datetime.now().date(), bg="#00274c", fg="red", font=self.font)
-        self.date.place(x=400,y=5)
-
-        # heading label
-        self.heading=Label(self, text="Weather Report", bg="#00274c", fg="white", font=self.font)
-        self.heading.place(x=180,y=5)
-
-        self.location=Label(self, text="NA-/", bg="#00274c", fg="blue", font=self.font)
-
-        # icon.png
-        # self.image1=ImageTk.PhotoImage(Image.open('.\images\icon.png'))
-        # self.image1=Label(self, image=self.image1)
-        # self.image1.place(x=20,y=40)
-
-        # city or country name label
-        self.name=Label(self, text="City or Country Name", fg="#00274c", font=self.font)
-        self.name.place(x=140,y=45)
-
-        # 
-        self.loc=Text(self, width=25, height=2)
-        self.loc.place(x=140,y=70)
-
-
-        # line1 label
-        self.line1=Label(self, bg="#00274c", width=20, height=0)
-        self.line1.place(x=0,y=150)
-        self.line2=Label(self, bg="#00274c", width=20, height=0)
-        self.line2.place(x=360,y=150)
-
-        # report label
-        self.report=Label(self, text="Weather Report", bg="#00274c", fg="white" ,font=self.font, padx=10)
-        self.report.place(x=180,y=150)
-
-        # icon2.png
-        # self.image2=ImageTk.PhotoImage(Image.open('.\images\icon2.png'))
-        # self.image2=Label(self, image=self.image2)
-        # self.image2.place(x=90,y=180)
-
-        # weather
-        self.weather=Label(self, text="NA/-", fg="#00274c", font=self.font)
-        self.weather.place(x=90,y=230)
-
-        # icon3.png
-        # self.image3=ImageTk.PhotoImage(Image.open('.\images\icon3.png'))
-        # self.image3=Label(self, image=self.image3)
-        # self.image3.place(x=200,y=180)
+        # background image
+        background_image=ImageTk.PhotoImage(file=r"images/clouds4.jpg")
+        panel=Label(self,image=background_image,bg='white')
+        panel.place(x=0,y=0)
+        
+        # Search bar
+        self.city=Text(self,width=16,height=1,font=('Cambria',20,'bold'))
+        self.city.place(x=230,y=50)
 
         # temperature
-        self.temperature=Label(self, text='NA/-',fg="#00274c",font=self.font)
-        self.temperature.place(x=200,y=230)
+        self.temperature=Label(self,text='20*C',width=0,bg='white',fg='black',font=('Cambria',60,'bold'))
+        self.temperature.place(x=30,y=200)
 
-        # icon4.png
-        # self.image4=ImageTk.PhotoImage(Image.open('.\images\icon4.png'))
-        # self.image4=Label(self, image=self.image3)
-        # self.image4.place(x=310,y=230)
+        # space to display city name 
+        self.location=Label(self, text="SAN FRANCISCO",width=0,bg='black',fg='white', font=('Cambria',20,'bold'))
+        self.location.place(x=350,y=200)
 
+        # displaying date
+        self.date=Label(self,text=datetime.now().date(),bg="black",fg="white",font=('Cambria',20,'bold'))
+        self.date.place(x=350,y=240)
 
-        # humidity
-        self.humidity=Label(self, text="NA/-", fg="#00274c", font=self.font)
-        self.humidity.place(x=310,y=230)
-
-        # icon5.png
-        # self.image5=ImageTk.PhotoImage(Image.open('.\images\icon5.png'))
-        # self.image5=Label(self, image=self.image5)
-        # self.image5.place(x=380,y=180)
+        # description
+        self.description=Label(self,text='...',width=0,bg='black',fg='white',font=('Cambria',35,'bold'))
+        self.description.place(x=30,y=350)
 
         # pressure
-        self.pressure=Label(self, text="NA/-",fg="#00274c",font=self.font)
-        self.pressure.place(x=380,y=230)
-        
-        #     self.location['text']=self.data['name']
-        #     self.c=self.data['main']['temp_max']-273.15
-        #     self.f=self.c*9/5+32
-        #     self.weather['text']=self.data['weather'][0]['main']
-        #     self.weather['font']=('calibri',20,'bold')
-        #     self.temperature['text']=f'{self.c}C\n{self.f}F'
-        #     self.temperature['font']=('calibri',15,'bold')
-        #     self.humidity['text']=self.data['main']['humidity']
-        #     self.humidity['font']=('calibri',15,'bold')
-        #     self.pressure['text']=self.data['main']['pressure']
-        #     self.pressure['font']=('calibri',15,'bold')
+        self.pressure_display=Label(self,text="PRESSURE: ",width=0,bg='white',fg='black',font=('Cambria',20,'bold'))
+        self.pressure_display.place(x=50,y=500)
 
+        # space to display pressure
+        self.pressure=Label(self,text="...",width=0,bg='white',fg='black',font=('Cambria',20,'bold'))
+        self.pressure.place(x=200,y=500)
+
+        # humidity
+        self.humidity_display=Label(self,text="HUMIDITY: ",width=0,bg='black',fg='white',font=("Cambria",20,"bold"))
+        self.humidity_display.place(x=300,y=500)
+
+        # space to display humidity
+        self.humidity=Label(self,text="...",width=0,bg='black',font=("bold,Cambria",20),fg="white")
+        self.humidity.place(x=450,y=500)
+
+        self.visibility_display=Label(self,text="VISIBILITY: ",width=0,bg='black',fg='white',font=("Cambria",20,'bold'))
+        self.visibility_display.place(x=50,y=600)
+
+        # space to display visibility
+        self.visibility=Label(self,text="...",width=0,bg='black',font=("Cambria",20,'bold'), fg='white')
+        self.visibility.place(x=200,y=600)
+
+        # Feels like
+        self.feels_like_display=Label(self,text="FEELS LIKE ",width=0,bg='#F0F3F4',fg='black',font=('Cambria',20,'bold'))
+        self.feels_like_display.place(x=300,y=600)
+
+        #space to display Feels Like
+        self.feels_like=Label(self,text="...",width=0,bg='#F0F3F4',font=('Cambria',20,'bold'),fg="black")
+        self.feels_like.place(x=450,y=600)
+
+        self.main_method(city_name=Persistence.get_data())
 
         # search button
-        self.button=Button(self, text="Search",bg="#00274c",fg='white',font=self.font)
-        self.button["command"] = self.main
-        self.button.place(x=350,y=73)
+        self.button=Button(self, text="Search",bg="black",fg='white',font=("bold,12"))
+        self.button["command"] = self.main_method
+        self.button.place(x=500,y=50)
 
-    def main(self):
-        city_name:str = self.loc.get(1.0, END)
+    def main_method(self, city_name=None):
+        degree_celcius = "°C"
+        if city_name == None: city_name:str = self.city.get("1.0", END)
+            # save the current input city name to data directory
+
         city_obj = CurrentCity(city_name, test=False)
 
-        if city_obj.cod == "404":
-            messagebox.showerror("Error","City not found")
+        if city_obj.cod == "404": messagebox.showerror("Error","City not found")
 
         self.location['text'] = city_obj.name
 
-        self.weather['text'] = city_obj.weather['main']
-        self.weather['font'] = ('calibri',20,'bold')
+        #self.des['text'] = city_obj.weather['main']
+        #self.des['font'] = ('calibri',20,'bold')
 
-        self.temperature['text'] = city_obj.temperature
-        self.temperature['font'] = ('calibri',15,'bold')
+        self.description['text'] = city_obj.weather['description'].title()
+        
+        self.temperature['text'] = str(city_obj.temperature)+degree_celcius
 
-        self.humidity['text'] = city_obj.humidity
-        self.humidity['font'] = ('calibri',15,'bold')
+        self.humidity['text'] = str(city_obj.humidity)+"%"
+        # self.humidity['font'] = ('calibri',15,'bold')
 
         self.pressure['text'] = city_obj.pressure
-        self.pressure['font'] = ('calibri',15,'bold')
+        self.feels_like['text'] = str(city_obj.feels_like)+degree_celcius
+        self.visibility['text'] = city_obj.visibility
+        # self.pressure['font'] = ('calibri',15,'bold')
+
+        Persistence.set_data(city_name)
 
 
 if __name__ == '__main__':
     weather = Weather()
-    weather.mainloop()
-        
+    weather.mainloop()  

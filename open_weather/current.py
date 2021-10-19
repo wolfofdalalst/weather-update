@@ -22,7 +22,7 @@ class CurrentCity:
 
     NOTE: For testing and developing do not use the api link directly. Instead use the sample data set given below.
     """    
-    def __init__(self, name:str, test=False):
+    def __init__(self, name:str, test=True):
         if " " in name:
             name = name.replace(" ", "%20")
             
@@ -38,6 +38,10 @@ class CurrentCity:
     @property
     def name(self) -> str:
         return self.response["name"]
+
+    @property
+    def visibility(self) -> int:
+        return self.response["visibility"]
 
     @property
     def coord(self) -> dict:
@@ -106,6 +110,11 @@ class CurrentCity:
         """Should return 200
         """
         return self.response["cod"]
+
+    @property
+    def icon_url(self) -> str:
+        temp:dict = self.response["weather"][0]
+        return f"https://openweathermap.org/img/w/{temp['icon']}"
 
     def __str__(self) -> str:
         """Usage:
