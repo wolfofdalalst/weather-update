@@ -8,7 +8,7 @@ class TestOpenWeather(unittest.TestCase):
         test_city = ["Kolkata", "Paris", "Berlin"]
         self.test_city_list = []
         for city in test_city:
-            self.test_city_list.append(CurrentCity(city, test=False))
+            self.test_city_list.append(CurrentCity(city, test=True))
 
     def test_cod(self):
         for city in self.test_city_list:
@@ -20,6 +20,8 @@ class TestOpenWeather(unittest.TestCase):
             self.assertIsInstance(temp, float, "Temperature should be float")
             self.assertLessEqual(temp, 60, "Temp <= 60")
             self.assertGreaterEqual(temp, -90, "Temp >= -90")
+
+    #TODO: Add test function to check .\open_weather\conversion.py
 
     def test_humidity(self):
         for city in self.test_city_list:
